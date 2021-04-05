@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './App.css';
 import TransactionList from "./components/TransactionList";
+import Clock from "./components/Clock";
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <Clock/>
         {counter >= 3 && richGreeting(counter)}
         {counter < 3 && poorGreeting(counter)}
         <button onClick={counterClicked}>Add Counter</button>
