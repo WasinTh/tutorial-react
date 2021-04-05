@@ -7,7 +7,13 @@ export default function TransactionList(props) {
           <td>{transaction.created}</td>
           <td>{transaction.type}</td>
           <td>{transaction.amount}</td>
-          <td>{transaction.note}</td>
+          <td>
+            <input value={transaction.note}
+              onChange={(evt) => {
+                props.onNoteChanged(transaction.id, evt.target.value)
+              }}
+            />
+          </td>
           <td><button onClick={() => alert(JSON.stringify(props))}>Debug</button></td>
         </tr>
       ))

@@ -13,7 +13,7 @@ function App() {
 
   const generateTransaction = () => {
     return {
-      id: transactionData.length,
+      id: transactionData.length + 1,
       created: new Date().toLocaleString(),
       type: ['รายรับ', 'รายจ่าย'][Math.floor(Math.random() * 2)],
       amount: Math.floor(Math.floor(Math.random() * 1000) + 1),
@@ -39,12 +39,21 @@ function App() {
     ])
   }
 
+  const handleNoteChanged = (id, note) => {
+    setTransactionData(
+      transactionData.map(transaction => {
+        transaction.note = transaction.id === id ? note : transaction.note;
+        return transaction
+      })
+    )
+  }
+
   return (
     <div className="App">
       <header className="App-header">
         <p>Current Amount {amount} </p>
         <button onClick={addTransaction}>Add Transaction</button>
-        <TransactionList data={transactionData} />
+        <TransactionList data={transactionData} onNoteChanged={handleNoteChanged}/>
       </header>
     </div>
   );
