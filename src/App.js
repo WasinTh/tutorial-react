@@ -1,32 +1,49 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import TransactionList from "./components/TransactionList";
 import Clock from "./components/Clock";
 
 
 function App() {
-  const transactionData = [
+  const [amount, setAmount] = useState(0);
+  const [transactionData, setTransactionData] = useState([
     { id: 1, created: "01/02/2021 - 08:30", type: "รายรับ", amount: 20000, note: "allowance" },
-    { id: 2, created: "01/02/2021 - 10:30", type: "รายจ่าย", amount: 150, note: "อาหารเที่ยง" },
-  ]
+    { id: 2, created: "01/02/2021 - 10:30", type: "รายจ่าย", amount: 150, note: "อาหารเที่ยง" }
+  ]);
 
-  const currentAmount = transactionData.reduce((sum, transaction) => sum += transaction.amount, 0);
-  const richGreeting = amount => <p style={{ 'color': 'green' }}>Wow you're so rich - {amount}</p>
-  const poorGreeting = amount => <p style={{ 'color': 'red' }}>So poor... - {amount}</p>
+  const generateTransaction = () => {
+    return {
+      id: transactionData.length,
+      created: new Date().toLocaleString(),
+      type: ['รายรับ', 'รายจ่าย'][Math.floor(Math.random() * 2)],
+      amount: Math.floor(Math.floor(Math.random() * 1000) + 1),
+      note: '',
+    }
+  }
 
-  const [counter, setCounter] = useState(0);
-  const counterClicked = () => {
-    console.log(`Clicked - ${counter}`);
-    setCounter(counter + 1);
+  useEffect(() => {
+    setAmount(
+      transactionData.reduce((sum, transaction) => {
+        if (transaction.type === "รายรับ")
+          return sum + transaction.amount;
+        else
+          return sum - transaction.amount;
+      }, 0)
+    )
+  }, [transactionData])
+
+  const addTransaction = () => {
+    setTransactionData([
+      ...transactionData,
+      generateTransaction()
+    ])
   }
 
   return (
     <div className="App">
       <header className="App-header">
-        <Clock/>
-        {counter >= 3 && richGreeting(counter)}
-        {counter < 3 && poorGreeting(counter)}
-        <button onClick={counterClicked}>Add Counter</button>
+        <p>Current Amount {amount} </p>
+        <button onClick={addTransaction}>Add Transaction</button>
         <TransactionList data={transactionData} />
       </header>
     </div>
