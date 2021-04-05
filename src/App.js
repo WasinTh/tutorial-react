@@ -15,7 +15,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        {currentAmount > 10000 ? richGreeting(currentAmount) : poorGreeting(currentAmount)}
+        {currentAmount >= 10000 && richGreeting(currentAmount)}
+        {currentAmount < 10000 && poorGreeting(currentAmount)}
         <TransactionList data={transactionData} />
       </header>
     </div>
