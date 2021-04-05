@@ -3,7 +3,7 @@ export default function TransactionList(props) {
   const generateRows = () => {
     if (props.data != null) {
       return props.data.map(transaction => (
-        <tr key={transaction.id}>
+        <tr key={transaction.id} bgColor={transaction.type === "รายรับ" ? "green" : "red"}>
           <td>{transaction.created}</td>
           <td>{transaction.type}</td>
           <td>{transaction.amount}</td>
