@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import './App.css';
 import TransactionList from "./components/TransactionList";
 
@@ -12,10 +13,10 @@ function App() {
   const richGreeting = amount => <p style={{ 'color': 'green' }}>Wow you're so rich - {amount}</p>
   const poorGreeting = amount => <p style={{ 'color': 'red' }}>So poor... - {amount}</p>
 
-  let counter = 0;
+  const [counter, setCounter] = useState(0);
   const counterClicked = () => {
     console.log(`Clicked - ${counter}`);
-    counter++;
+    setCounter(counter + 1);
   }
 
   return (
