@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import TransactionList from "./components/TransactionList";
 import TransactionCreate from "./components/TransactionCreate";
+import Login from "./components/Login";
 
 
 function App() {
+  const [token, setToken] = useState(null);
   const [amount, setAmount] = useState(0);
   const [transactionData, setTransactionData] = useState([
     { id: 1, created: "01/02/2021 - 08:30", type: "รายรับ", amount: 20000, note: "allowance" },
@@ -32,9 +34,14 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>Current Amount {amount} </p>
-        <TransactionCreate onCreated={data => addTransaction(data)}/>
-        <TransactionList data={transactionData}/>
+        {!token && <Login onLoginSuccess={token => setToken(token)} />}
+        {token && 
+          <div>
+            <p>Current Amount {amount} </p>
+            <TransactionCreate onCreated={data => addTransaction(data)}/>
+            <TransactionList data={transactionData}/>
+          </div>
+        }
       </header>
     </div>
   );
