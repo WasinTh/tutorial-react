@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import axios from "axios"
 import './App.css';
 import TransactionList from "./components/TransactionList";
 import TransactionCreate from "./components/TransactionCreate";
@@ -8,11 +9,9 @@ import CustomerSelect from "./components/CustomerSelect";
 
 function App() {
   const [token, setToken] = useState(null);
+  const [customer, setCustomer] = useState(null);
   const [amount, setAmount] = useState(0);
-  const [transactionData, setTransactionData] = useState([
-    { id: 1, created: "01/02/2021 - 08:30", type: "รายรับ", amount: 20000, note: "allowance" },
-    { id: 2, created: "01/02/2021 - 10:30", type: "รายจ่าย", amount: 150, note: "อาหารเที่ยง" }
-  ]);
+  const [transactionData, setTransactionData] = useState([]);
 
   useEffect(() => {
     setAmount(
@@ -33,19 +32,27 @@ function App() {
   }
 
   const handleCustomerChanged = customerId => {
-    console.log(`Customer ID : ${customerId}`)
+    axios.get(`http://localhost:8000/account/transaction-viewsets/?customer__id=${customerId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+      .then(response => setTransactionData(response.data))
+      .catch(err => alert(err));
+    setCustomer(customerId)
   }
 
   return (
     <div className="App">
       <header className="App-header">
         {!token && <Login onLoginSuccess={token => setToken(token)} />}
-        {token && 
+        {token && <CustomerSelect token={token} onCustomerSelected={handleCustomerChanged} />}
+        {
+          customer &&
           <div>
-            <CustomerSelect token={token} onCustomerSelected={handleCustomerChanged} />
             <p>Current Amount {amount} </p>
-            <TransactionCreate onCreated={data => addTransaction(data)}/>
-            <TransactionList data={transactionData}/>
+            <TransactionCreate onCreated={data => addTransaction(data)} />
+            <TransactionList data={transactionData} />
           </div>
         }
       </header>
