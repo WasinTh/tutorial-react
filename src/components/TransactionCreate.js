@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
 export default function TransactionCreate(props) {
-  const [state, setState] = useState({ type: null, amount: 0, note: '' });
+  const DEFAULT_STATE = { type: null, amount: 0, note: '' };
+  const [state, setState] = useState(DEFAULT_STATE);
 
   const onFormChanged = evt => {
     setState({
@@ -19,6 +20,7 @@ export default function TransactionCreate(props) {
       note: state.note, 
       customer: props.customerId
     })
+    setState(DEFAULT_STATE);
   }
 
   return (

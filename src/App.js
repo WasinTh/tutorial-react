@@ -29,21 +29,12 @@ function App() {
     ])
   }
 
-  const handleNoteChanged = (id, note) => {
-    setTransactionData(
-      transactionData.map(transaction => {
-        transaction.note = transaction.id === id ? note : transaction.note;
-        return transaction
-      })
-    )
-  }
-
   return (
     <div className="App">
       <header className="App-header">
         <p>Current Amount {amount} </p>
         <TransactionCreate onCreated={data => addTransaction(data)}/>
-        <TransactionList data={transactionData} onNoteChanged={handleNoteChanged}/>
+        <TransactionList data={transactionData}/>
       </header>
     </div>
   );
