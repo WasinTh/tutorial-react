@@ -8,6 +8,7 @@ export default function TransactionList(props) {
           <td>{transaction.type}</td>
           <td>{transaction.amount}</td>
           <td>{transaction.note}</td>
+          <td><button onClick={() => alert(JSON.stringify(props))}>Debug</button></td>
         </tr>
       ))
     }
@@ -24,6 +25,7 @@ export default function TransactionList(props) {
           <th>Type</th>
           <th>amount</th>
           <th>note</th>
+          <th>debug</th>
         </tr>
       </thead>
       <tbody>{generateRows()}</tbody>
