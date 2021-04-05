@@ -3,6 +3,7 @@ import './App.css';
 import TransactionList from "./components/TransactionList";
 import TransactionCreate from "./components/TransactionCreate";
 import Login from "./components/Login";
+import CustomerSelect from "./components/CustomerSelect";
 
 
 function App() {
@@ -31,12 +32,17 @@ function App() {
     ])
   }
 
+  const handleCustomerChanged = customerId => {
+    console.log(`Customer ID : ${customerId}`)
+  }
+
   return (
     <div className="App">
       <header className="App-header">
         {!token && <Login onLoginSuccess={token => setToken(token)} />}
         {token && 
           <div>
+            <CustomerSelect token={token} onCustomerSelected={handleCustomerChanged} />
             <p>Current Amount {amount} </p>
             <TransactionCreate onCreated={data => addTransaction(data)}/>
             <TransactionList data={transactionData}/>
