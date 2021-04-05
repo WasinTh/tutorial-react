@@ -12,11 +12,18 @@ function App() {
   const richGreeting = amount => <p style={{ 'color': 'green' }}>Wow you're so rich - {amount}</p>
   const poorGreeting = amount => <p style={{ 'color': 'red' }}>So poor... - {amount}</p>
 
+  let counter = 0;
+  const counterClicked = () => {
+    console.log(`Clicked - ${counter}`);
+    counter++;
+  }
+
   return (
     <div className="App">
       <header className="App-header">
-        {currentAmount >= 10000 && richGreeting(currentAmount)}
-        {currentAmount < 10000 && poorGreeting(currentAmount)}
+        {counter >= 3 && richGreeting(counter)}
+        {counter < 3 && poorGreeting(counter)}
+        <button onClick={counterClicked}>Add Counter</button>
         <TransactionList data={transactionData} />
       </header>
     </div>
